@@ -1,5 +1,5 @@
 
-def start()
+def start():
     pass
 
 def black_screen():
