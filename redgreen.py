@@ -1,6 +1,12 @@
+#!/usr/bin/env python
+
+import pygame
+
+screen_size = 640, 480
 
 def start():
-    pass
+    pygame.init()
+    screen = pygame.display.set_mode( screen_size )
 
 def black_screen():
     pass
@@ -12,9 +18,10 @@ def shape():
     pass
 
 def end():
-    pass
-
-
+    while True:
+        evt = pygame.event.wait()
+        if evt.type == pygame.QUIT:
+            break
 
 start()
 
