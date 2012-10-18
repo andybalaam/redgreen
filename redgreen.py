@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import pygame
+import random
 
 screen_width = 640
 screen_height = 480
@@ -25,10 +26,12 @@ def ready_screen():
     pygame.display.flip()
 
 def wait():
-    pass
+    time_to_wait = random.randint( 2000, 5000 ) # Between 2 and 5 seconds
+    pygame.time.wait( time_to_wait ) # Note bug: can't quit during this time
 
 def shape():
-    pass
+    screen.fill( pygame.Color( "black" ) )
+    pygame.display.flip()
 
 def end():
     while True:
