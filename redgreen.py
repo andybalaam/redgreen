@@ -7,32 +7,30 @@ screen_width = 640
 screen_height = 480
 
 screen = None
-ready_text = None
-ready_text_pos = None
-end_text = None
-end_text_pos = None
+rendered_texts = {}
 
 def start():
     global screen, ready_text, ready_text_pos, end_text, end_text_pos
     pygame.init()
     screen = pygame.display.set_mode( ( screen_width, screen_height ) )
-    font = pygame.font.Font( None, screen_height / 5 )
 
-    ready_text = font.render( "Ready?", 1, pygame.Color( "white" ) )
-    ready_text_pos = ready_text.get_rect(
-        centerx = screen.get_width() / 2,
-        centery = screen.get_height() / 2
-    )
-
-    end_text = font.render( "Thanks for playing!", 1, pygame.Color( "black" ) )
-    end_text_pos = end_text.get_rect(
-        centerx = screen.get_width() / 2,
-        centery = screen.get_height() / 2
-    )
+def write_text( screen, text, color ):
+    global rendered_texts
+    if text not in rendered_texts:
+        font = pygame.font.Font( None, screen_height / 5 )
+        rend = font.render( text, 1, color )
+        pos = rend.get_rect(
+            centerx = screen.get_width() / 2,
+            centery = screen.get_height() / 2
+        )
+        rendered_texts[text] = rend, pos
+    else:
+        rend, pos = rendered_texts[text]
+    screen.blit( rend, pos )
 
 def ready_screen():
     screen.fill( pygame.Color( "black" ) )
-    screen.blit( ready_text, ready_text_pos )
+    write_text( screen, "Ready?", pygame.Color( "white" ) )
     pygame.display.flip()
 
 def wait():
@@ -83,7 +81,7 @@ def shape():
 
 def end():
     screen.fill( pygame.Color( "white" ) )
-    screen.blit( end_text, end_text_pos )
+    write_text( screen, "Thanks for playing!", pygame.Color( "black" ) )
     pygame.display.flip()
 
     while True:
