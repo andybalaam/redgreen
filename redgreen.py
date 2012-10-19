@@ -29,9 +29,18 @@ def wait():
     time_to_wait = random.randint( 1500, 3000 ) # Between 1.5 and 3 seconds
     pygame.time.wait( time_to_wait ) # Note bug: can't quit during this time
 
-def shape():
+def green_shape():
+    green = pygame.Color( "green" )
+    centre = ( screen.get_width() / 2, screen.get_height() / 2 )
+    radius = screen.get_width() / 3
+
     screen.fill( pygame.Color( "white" ) )
+    pygame.draw.circle( screen, green, centre, radius, 0 )
+
     pygame.display.flip()
+
+def shape():
+    green_shape()
 
 def end():
     while True:
