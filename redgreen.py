@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import math
 import pygame
 import random
 
@@ -52,8 +53,49 @@ def green_wait():
 
     return False
 
+def smiley_face():
+    green = pygame.Color( "green" )
+    centre_x = screen.get_width() / 2
+    centre_y = screen.get_height() / 2
+    centre = centre_x, centre_y
+    radius = int( screen.get_height() / 2.5 )
+    width = screen.get_height() / 30
+
+    eye_radius = screen.get_height() / 10
+    eye1_centre_x = centre_x - ( radius / 3 )
+    eye1_centre_y = centre_y - ( 13 * radius / 30 )
+    eye2_centre_x = centre_x + ( radius / 3 )
+    eye2_centre_y = centre_y - ( 13 * radius / 30 )
+
+    eye1_centre = eye1_centre_x, eye1_centre_y
+    eye2_centre = eye2_centre_x, eye2_centre_y
+
+    mouth_left   = centre_x - ( radius / 2 )
+    mouth_width  = radius
+    mouth_top    = centre_y - ( radius / 10 )
+    mouth_height = 2 * radius / 3
+
+    mouth_rect = ( ( mouth_left, mouth_top ), ( mouth_width, mouth_height ) )
+    mouth_start = math.pi       # Downwards
+    mouth_end   = 2 * math.pi   # Upwards
+
+    screen.fill( pygame.Color( "white" ) )
+    pygame.draw.circle( screen, green, centre, radius, width )
+    pygame.draw.circle( screen, green, eye1_centre, eye_radius, width )
+    pygame.draw.circle( screen, green, eye2_centre, eye_radius, width )
+    pygame.draw.arc( screen, green, mouth_rect, mouth_start, mouth_end, width )
+
 def green_success():
-    print "Success!"
+    smiley_face()
+    write_text( screen, "Well done!", pygame.Color( "green" ) )
+    pygame.display.flip()
+
+    while True:
+        evt = pygame.event.wait()
+        if evt.type == pygame.QUIT:
+            raise Exception()
+        elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
+            break
 
 def green_failure():
     print "Failure!"
