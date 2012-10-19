@@ -8,14 +8,24 @@ screen_height = 480
 
 screen = None
 ready_text = None
+ready_text_pos = None
+end_text = None
+end_text_pos = None
 
 def start():
-    global screen, ready_text, ready_text_pos
+    global screen, ready_text, ready_text_pos, end_text, end_text_pos
     pygame.init()
     screen = pygame.display.set_mode( ( screen_width, screen_height ) )
     font = pygame.font.Font( None, screen_height / 5 )
+
     ready_text = font.render( "Ready?", 1, pygame.Color( "white" ) )
     ready_text_pos = ready_text.get_rect(
+        centerx = screen.get_width() / 2,
+        centery = screen.get_height() / 2
+    )
+
+    end_text = font.render( "Thanks for playing!", 1, pygame.Color( "black" ) )
+    end_text_pos = end_text.get_rect(
         centerx = screen.get_width() / 2,
         centery = screen.get_height() / 2
     )
@@ -73,11 +83,15 @@ def shape():
 
 def end():
     screen.fill( pygame.Color( "white" ) )
+    screen.blit( end_text, end_text_pos )
     pygame.display.flip()
 
     while True:
         evt = pygame.event.wait()
-        if evt.type == pygame.QUIT:
+        if (
+            evt.type == pygame.QUIT or
+            evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN )
+        ):
             break
 
 start()
