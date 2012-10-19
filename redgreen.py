@@ -29,20 +29,52 @@ def wait():
     time_to_wait = random.randint( 1500, 3000 ) # Between 1.5 and 3 seconds
     pygame.time.wait( time_to_wait ) # Note bug: can't quit during this time
 
+def green_wait():
+
+    wait_time = 2000     # We will wait for 2 seconds for a keypress
+    start_time = pygame.time.get_ticks()
+
+    while pygame.time.get_ticks() - start_time < wait_time:
+        evt = pygame.event.poll()
+        if evt.type == pygame.QUIT:
+            raise Exception()
+        elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
+            return True
+        pygame.time.wait( 10 ) # Give the system a little rest
+
+    return False
+
+def green_success():
+    print "Success!"
+
+def green_failure():
+    print "Failure!"
+
 def green_shape():
     green = pygame.Color( "green" )
     centre = ( screen.get_width() / 2, screen.get_height() / 2 )
-    radius = screen.get_width() / 3
+    radius = screen.get_height() / 3
 
     screen.fill( pygame.Color( "white" ) )
     pygame.draw.circle( screen, green, centre, radius, 0 )
 
     pygame.display.flip()
 
+    success = green_wait()
+
+    if success:
+        green_success()
+    else:
+        green_failure()
+
 def shape():
     green_shape()
 
+
 def end():
+    screen.fill( pygame.Color( "white" ) )
+    pygame.display.flip()
+
     while True:
         evt = pygame.event.wait()
         if evt.type == pygame.QUIT:
