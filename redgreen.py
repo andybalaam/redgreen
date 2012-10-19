@@ -3,6 +3,7 @@
 import math
 import pygame
 import random
+import sys
 
 screen_width = 640
 screen_height = 480
@@ -29,6 +30,10 @@ def write_text( screen, text, color ):
         rend, pos = rendered_texts[text]
     screen.blit( rend, pos )
 
+def quit():
+    pygame.quit()
+    sys.exit()
+
 def ready_screen():
     screen.fill( pygame.Color( "black" ) )
     write_text( screen, "Ready?", pygame.Color( "white" ) )
@@ -46,7 +51,7 @@ def green_wait():
     while pygame.time.get_ticks() - start_time < wait_time:
         evt = pygame.event.poll()
         if evt.type == pygame.QUIT:
-            raise Exception()
+            quit()
         elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
             return True
         pygame.time.wait( 10 ) # Give the system a little rest
@@ -93,7 +98,7 @@ def green_success():
     while True:
         evt = pygame.event.wait()
         if evt.type == pygame.QUIT:
-            raise Exception()
+            quit()
         elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
             break
 
@@ -132,7 +137,7 @@ def end():
             evt.type == pygame.QUIT or
             evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN )
         ):
-            break
+            quit()
 
 start()
 
