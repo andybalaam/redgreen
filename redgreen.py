@@ -9,26 +9,43 @@ screen_width = 640
 screen_height = 480
 
 screen = None
-rendered_texts = {}
+rendered_main_texts = {}
+rendered_small_texts = {}
 
 def start():
     global screen, ready_text, ready_text_pos, end_text, end_text_pos
     pygame.init()
     screen = pygame.display.set_mode( ( screen_width, screen_height ) )
 
-def write_text( screen, text, color ):
-    global rendered_texts
-    if text not in rendered_texts:
+def write_main_text( screen, text, color ):
+    global rendered_main_texts
+    if text not in rendered_main_texts:
         font = pygame.font.Font( None, screen_height / 5 )
         rend = font.render( text, 1, color )
         pos = rend.get_rect(
             centerx = screen.get_width() / 2,
             centery = screen.get_height() / 2
         )
-        rendered_texts[text] = rend, pos
+        rendered_main_texts[text] = rend, pos
     else:
-        rend, pos = rendered_texts[text]
+        rend, pos = rendered_main_texts[text]
     screen.blit( rend, pos )
+
+
+def write_small_text( screen, text, color ):
+    global rendered_small_texts
+    if text not in rendered_small_texts:
+        font = pygame.font.Font( None, screen_height / 12 )
+        rend = font.render( text, 1, color )
+        pos = rend.get_rect(
+            centerx = screen.get_width() / 2,
+            centery = screen.get_height() - ( screen_height / 24 )
+        )
+        rendered_small_texts[text] = rend, pos
+    else:
+        rend, pos = rendered_small_texts[text]
+    screen.blit( rend, pos )
+
 
 def quit():
     pygame.quit()
@@ -36,7 +53,7 @@ def quit():
 
 def ready_screen():
     screen.fill( pygame.Color( "black" ) )
-    write_text( screen, "Ready?", pygame.Color( "white" ) )
+    write_main_text( screen, "Ready?", pygame.Color( "white" ) )
     pygame.display.flip()
 
 def wait():
@@ -125,7 +142,9 @@ def sad_face():
 
 def green_success():
     smiley_face()
-    write_text( screen, "Well done!", pygame.Color( "green" ) )
+    write_main_text( screen, "Well done!", pygame.Color( "green" ) )
+    write_small_text(
+        screen, "You pressed on green!", pygame.Color( "black" ) )
     pygame.display.flip()
 
     while True:
@@ -137,7 +156,10 @@ def green_success():
 
 def green_failure():
     sad_face()
-    write_text( screen, "Bad luck!", pygame.Color( "red" ) )
+    write_main_text( screen, "Bad luck!", pygame.Color( "red" ) )
+    write_small_text(
+        screen, "Green means press something!", pygame.Color( "black" ) )
+
     pygame.display.flip()
 
     while True:
@@ -155,6 +177,8 @@ def green_shape():
     screen.fill( pygame.Color( "white" ) )
     pygame.draw.circle( screen, green, centre, radius, 0 )
 
+    write_small_text( screen, "Press something!", pygame.Color( "black" ) )
+
     pygame.display.flip()
 
     success = green_wait()
@@ -170,7 +194,7 @@ def shape():
 
 def end():
     screen.fill( pygame.Color( "white" ) )
-    write_text( screen, "Thanks for playing!", pygame.Color( "black" ) )
+    write_main_text( screen, "Thanks for playing!", pygame.Color( "black" ) )
     pygame.display.flip()
 
     while True:
