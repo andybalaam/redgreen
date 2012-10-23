@@ -76,9 +76,9 @@ def smiley_face():
     eye1_centre = eye1_centre_x, eye1_centre_y
     eye2_centre = eye2_centre_x, eye2_centre_y
 
-    mouth_left   = centre_x - ( radius / 2 )
-    mouth_width  = radius
-    mouth_top    = centre_y - ( radius / 10 )
+    mouth_left   = centre_x - ( 3 * radius / 8 )
+    mouth_width  = 3 * radius / 4
+    mouth_top    = centre_y
     mouth_height = 2 * radius / 3
 
     mouth_rect = ( ( mouth_left, mouth_top ), ( mouth_width, mouth_height ) )
@@ -90,6 +90,38 @@ def smiley_face():
     pygame.draw.circle( screen, green, eye1_centre, eye_radius, width )
     pygame.draw.circle( screen, green, eye2_centre, eye_radius, width )
     pygame.draw.arc( screen, green, mouth_rect, mouth_start, mouth_end, width )
+
+def sad_face():
+    red = pygame.Color( "red" )
+    centre_x = screen.get_width() / 2
+    centre_y = screen.get_height() / 2
+    centre = centre_x, centre_y
+    radius = int( screen.get_height() / 2.5 )
+    width = screen.get_height() / 30
+
+    eye_radius = screen.get_height() / 10
+    eye1_centre_x = centre_x - ( radius / 3 )
+    eye1_centre_y = centre_y - ( 13 * radius / 30 )
+    eye2_centre_x = centre_x + ( radius / 3 )
+    eye2_centre_y = centre_y - ( 13 * radius / 30 )
+
+    eye1_centre = eye1_centre_x, eye1_centre_y
+    eye2_centre = eye2_centre_x, eye2_centre_y
+
+    mouth_left   = centre_x - ( 3 * radius / 8 )
+    mouth_width  = 3 * radius / 4
+    mouth_top    = centre_y + ( radius / 5 )
+    mouth_height = 2 * radius / 3
+
+    mouth_rect = ( ( mouth_left, mouth_top ), ( mouth_width, mouth_height ) )
+    mouth_start = 0
+    mouth_end   = math.pi
+
+    screen.fill( pygame.Color( "white" ) )
+    pygame.draw.circle( screen, red, centre, radius, width )
+    pygame.draw.circle( screen, red, eye1_centre, eye_radius, width )
+    pygame.draw.circle( screen, red, eye2_centre, eye_radius, width )
+    pygame.draw.arc( screen, red, mouth_rect, mouth_start, mouth_end, width )
 
 def green_success():
     smiley_face()
@@ -104,7 +136,16 @@ def green_success():
             break
 
 def green_failure():
-    print "Failure!"
+    sad_face()
+    write_text( screen, "Bad luck!", pygame.Color( "red" ) )
+    pygame.display.flip()
+
+    while True:
+        evt = pygame.event.wait()
+        if evt.type == pygame.QUIT:
+            quit()
+        elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
+            break
 
 def green_shape():
     green = pygame.Color( "green" )
