@@ -48,6 +48,7 @@ def green_wait():
     wait_time = 2000     # We will wait for 2 seconds for a keypress
     start_time = pygame.time.get_ticks()
 
+    pygame.event.clear()
     while pygame.time.get_ticks() - start_time < wait_time:
         evt = pygame.event.poll()
         if evt.type == pygame.QUIT:
