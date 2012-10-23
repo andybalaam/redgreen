@@ -60,7 +60,7 @@ def wait():
     time_to_wait = random.randint( 1500, 3000 ) # Between 1.5 and 3 seconds
     pygame.time.wait( time_to_wait ) # Note bug: can't quit during this time
 
-def green_wait():
+def shape_wait():
 
     wait_time = 2000     # We will wait for 2 seconds for a keypress
     start_time = pygame.time.get_ticks()
@@ -169,6 +169,37 @@ def green_failure():
         elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
             break
 
+
+def red_success():
+    smiley_face()
+    write_main_text( screen, "Well done!", pygame.Color( "green" ) )
+    write_small_text(
+        screen, "You didn't press on red!", pygame.Color( "black" ) )
+    pygame.display.flip()
+
+    while True:
+        evt = pygame.event.wait()
+        if evt.type == pygame.QUIT:
+            quit()
+        elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
+            break
+
+def red_failure():
+    sad_face()
+    write_main_text( screen, "Bad luck!", pygame.Color( "red" ) )
+    write_small_text(
+        screen, "Red means don't press anything!", pygame.Color( "black" ) )
+
+    pygame.display.flip()
+
+    while True:
+        evt = pygame.event.wait()
+        if evt.type == pygame.QUIT:
+            quit()
+        elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
+            break
+
+
 def green_shape():
     green = pygame.Color( "green" )
     centre = ( screen.get_width() / 2, screen.get_height() / 2 )
@@ -181,15 +212,46 @@ def green_shape():
 
     pygame.display.flip()
 
-    success = green_wait()
+    pressed = shape_wait()
 
-    if success:
+    if pressed:
         green_success()
     else:
         green_failure()
 
+
+def red_shape():
+    red = pygame.Color( "red" )
+    height = 2 * ( screen.get_height() / 3 )
+    left = ( screen.get_width() / 2 ) - ( height / 2 )
+    top = screen.get_height() / 6
+    centre = ( screen.get_width() / 2, screen.get_height() / 2 )
+    radius = screen.get_height() / 3
+
+    screen.fill( pygame.Color( "white" ) )
+    pygame.draw.rect( screen, red, ( left, top, height, height ), 0 )
+
+    write_small_text( screen, "Don't press!", pygame.Color( "black" ) )
+
+    pygame.display.flip()
+
+    pressed = shape_wait()
+
+    if pressed:
+        red_failure()
+    else:
+        red_success()
+
+
 def shape():
-    green_shape()
+    GREEN = 0
+    RED   = 1
+    shape = random.choice( [GREEN, RED] )
+
+    if shape == GREEN:
+        green_shape()
+    else:
+        red_shape()
 
 
 def end():
