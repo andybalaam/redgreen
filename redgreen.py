@@ -221,8 +221,10 @@ def green_shape():
 
     if pressed:
         green_success()
+        return 1
     else:
         green_failure()
+        return 0
 
 
 def red_shape():
@@ -244,8 +246,10 @@ def red_shape():
 
     if pressed:
         red_failure()
+        return 0
     else:
         red_success()
+        return 1
 
 
 def shape():
@@ -254,14 +258,18 @@ def shape():
     shape = random.choice( [GREEN, RED] )
 
     if shape == GREEN:
-        green_shape()
+        return green_shape()
     else:
-        red_shape()
+        return red_shape()
 
 
-def end():
+def end( correct ):
     screen.fill( pygame.Color( "white" ) )
-    write_main_text( screen, "Thanks for playing!", pygame.Color( "black" ) )
+    black = pygame.Color( "black" )
+    write_main_text( screen, "Thanks for playing!", black )
+
+    write_small_text( screen, "You got %d correct answers." % correct, black )
+
     pygame.display.flip()
 
     while True:
@@ -274,10 +282,11 @@ def end():
 
 start()
 
+correct = 0
 for i in range( 10 ):
     ready_screen( i )
     wait()
-    shape()
+    correct += shape()
 
-end()
+end( correct )
 
