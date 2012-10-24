@@ -269,11 +269,10 @@ def end():
 
 start()
 
-ready_screen()
-
-wait()
-
-shape()
+for i in range( 10 ):
+    ready_screen()
+    wait()
+    shape()
 
 end()
 
