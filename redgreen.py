@@ -61,25 +61,37 @@ def ready_screen( go_number ):
 
     pygame.display.flip()
 
-def wait():
-    time_to_wait = random.randint( 1500, 3000 ) # Between 1.5 and 3 seconds
-    pygame.time.wait( time_to_wait ) # Note bug: can't quit during this time
+def timed_wait( time_to_wait, event_types_that_cancel ):
+    """
+    Wait for the specified time_to_wait, but cancel if we receive an
+    event of one of the types in event_types_that_cancel.
+    Return True if we were cancelled, or False if the time ran out.
+    """
 
-def shape_wait():
-
-    wait_time = 2000     # We will wait for 2 seconds for a keypress
     start_time = pygame.time.get_ticks()
 
-    pygame.event.clear()
-    while pygame.time.get_ticks() - start_time < wait_time:
+    while pygame.time.get_ticks() - start_time < time_to_wait:
         evt = pygame.event.poll()
         if evt.type == pygame.QUIT:
             quit()
-        elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
+        elif evt.type in event_types_that_cancel:
             return True
         pygame.time.wait( 10 ) # Give the system a little rest
 
     return False
+
+
+def wait():
+    time_to_wait = random.randint( 1500, 3000 ) # Between 1.5 and 3 seconds
+    timed_wait( time_to_wait, [] )
+
+
+def shape_wait():
+
+    wait_time = 2000     # We will wait for 2 seconds for a keypress
+
+    pygame.event.clear()
+    return timed_wait( wait_time, ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ) )
 
 def smiley_face():
     green = pygame.Color( "green" )
