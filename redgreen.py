@@ -145,6 +145,14 @@ def sad_face():
     pygame.draw.circle( screen, red, eye2_centre, eye_radius, width )
     pygame.draw.arc( screen, red, mouth_rect, mouth_start, mouth_end, width )
 
+def wait_for_press():
+    while True:
+        evt = pygame.event.wait()
+        if evt.type == pygame.QUIT:
+            quit()
+        elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
+            break
+
 def green_success():
     smiley_face()
     write_main_text( screen, "Well done!", pygame.Color( "green" ) )
@@ -152,12 +160,7 @@ def green_success():
         screen, "You pressed on green!", pygame.Color( "black" ) )
     pygame.display.flip()
 
-    while True:
-        evt = pygame.event.wait()
-        if evt.type == pygame.QUIT:
-            quit()
-        elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
-            break
+    wait_for_press()
 
 def green_failure():
     sad_face()
@@ -167,12 +170,7 @@ def green_failure():
 
     pygame.display.flip()
 
-    while True:
-        evt = pygame.event.wait()
-        if evt.type == pygame.QUIT:
-            quit()
-        elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
-            break
+    wait_for_press()
 
 
 def red_success():
@@ -182,12 +180,7 @@ def red_success():
         screen, "You didn't press on red!", pygame.Color( "black" ) )
     pygame.display.flip()
 
-    while True:
-        evt = pygame.event.wait()
-        if evt.type == pygame.QUIT:
-            quit()
-        elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
-            break
+    wait_for_press()
 
 def red_failure():
     sad_face()
@@ -197,12 +190,7 @@ def red_failure():
 
     pygame.display.flip()
 
-    while True:
-        evt = pygame.event.wait()
-        if evt.type == pygame.QUIT:
-            quit()
-        elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
-            break
+    wait_for_press()
 
 
 def green_shape():
@@ -272,13 +260,10 @@ def end( correct ):
 
     pygame.display.flip()
 
-    while True:
-        evt = pygame.event.wait()
-        if (
-            evt.type == pygame.QUIT or
-            evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN )
-        ):
-            quit()
+    wait_for_press()
+    quit()
+
+# We start from here
 
 start()
 
