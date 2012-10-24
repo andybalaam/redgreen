@@ -51,9 +51,14 @@ def quit():
     pygame.quit()
     sys.exit()
 
-def ready_screen():
+def ready_screen( go_number ):
     screen.fill( pygame.Color( "black" ) )
     write_main_text( screen, "Ready?", pygame.Color( "white" ) )
+
+    go_number_str = "Go number: %d" % go_number
+
+    write_small_text( screen, go_number_str, pygame.Color( "white" ) )
+
     pygame.display.flip()
 
 def wait():
@@ -270,7 +275,7 @@ def end():
 start()
 
 for i in range( 10 ):
-    ready_screen()
+    ready_screen( i )
     wait()
     shape()
 
