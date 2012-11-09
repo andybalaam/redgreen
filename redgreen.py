@@ -57,7 +57,7 @@ def ready_screen( go_number ):
     screen.fill( pygame.Color( "black" ) )
     write_main_text( screen, "Ready?", pygame.Color( "white" ) )
 
-    go_number_str = "Go number: %d" % go_number
+    go_number_str = "Turn: %d" % ( go_number + 1 )
 
     write_small_text( screen, go_number_str, pygame.Color( "white" ) )
 
@@ -218,10 +218,10 @@ def green_shape():
 
     if pressed:
         green_success()
-        return 1, time
+        return True, 1, time
     else:
         green_failure()
-        return 0, time
+        return True, 0, time
 
 
 def red_shape():
@@ -245,10 +245,10 @@ def red_shape():
 
     if pressed:
         red_failure()
-        return 0, wait_time
+        return False, 0, wait_time
     else:
         red_success()
-        return 1, 0
+        return False, 1, 0
 
 
 def shape():
@@ -284,18 +284,21 @@ def end( correct, time_score ):
 
 start()
 
-num_goes = 10
+num_greens = 10
 
 correct = 0
 time_millis = 0
-for i in range( num_goes ):
+i = 0
+while i < num_greens:
     ready_screen( i )
     wait()
-    correct_points, tm_points = shape()
+    wasgreen, correct_points, tm_points = shape()
+    if wasgreen:
+        i += 1
     correct += correct_points
     time_millis += tm_points
 
-max_time = num_goes * wait_time
+max_time = num_greens * wait_time
 
 end( correct, max_time - time_millis )
 
