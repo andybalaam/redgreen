@@ -260,6 +260,7 @@ def shape():
 
 
 def end( correct ):
+    print "You got %d correct answers" % correct
     screen.fill( pygame.Color( "white" ) )
     black = pygame.Color( "black" )
     write_main_text( screen, "Thanks for playing!", black )
