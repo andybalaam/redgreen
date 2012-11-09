@@ -157,13 +157,9 @@ def sad_face():
     pygame.draw.circle( screen, red, eye2_centre, eye_radius, width )
     pygame.draw.arc( screen, red, mouth_rect, mouth_start, mouth_end, width )
 
-def wait_for_press():
-    while True:
-        evt = pygame.event.wait()
-        if evt.type == pygame.QUIT:
-            quit()
-        elif evt.type in ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ):
-            break
+def result_wait():
+    result_time = 3000 # wait for 4 seconds
+    timed_wait( result_time, ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ) )
 
 def green_success():
     smiley_face()
@@ -172,7 +168,7 @@ def green_success():
         screen, "You pressed on green!", pygame.Color( "black" ) )
     pygame.display.flip()
 
-    wait_for_press()
+    result_wait()
 
 def green_failure():
     sad_face()
@@ -182,7 +178,7 @@ def green_failure():
 
     pygame.display.flip()
 
-    wait_for_press()
+    result_wait()
 
 
 def red_success():
@@ -192,7 +188,7 @@ def red_success():
         screen, "You didn't press on red!", pygame.Color( "black" ) )
     pygame.display.flip()
 
-    wait_for_press()
+    result_wait()
 
 def red_failure():
     sad_face()
@@ -202,7 +198,7 @@ def red_failure():
 
     pygame.display.flip()
 
-    wait_for_press()
+    result_wait()
 
 
 def green_shape():
@@ -272,8 +268,12 @@ def end( correct ):
 
     pygame.display.flip()
 
-    wait_for_press()
+    end_time = 10000 # wait for 10 seconds
+    timed_wait( end_time, ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ) )
+
     quit()
+
+
 
 # We start from here
 
