@@ -17,7 +17,8 @@ wait_time = 2000 # Display each shape for 2 seconds
 def start():
     global screen, ready_text, ready_text_pos, end_text, end_text_pos
     pygame.init()
-    screen = pygame.display.set_mode( ( screen_width, screen_height ) )
+    screen = pygame.display.set_mode(
+        ( screen_width, screen_height ), pygame.FULLSCREEN )
 
 def write_main_text( screen, text, color ):
     global rendered_main_texts
