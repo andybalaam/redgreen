@@ -53,11 +53,12 @@ def quit():
     pygame.quit()
     sys.exit()
 
-def ready_screen( go_number ):
+def ready_screen( go_number, correct, time_score ):
     screen.fill( pygame.Color( "black" ) )
     write_main_text( screen, "Ready?", pygame.Color( "white" ) )
 
-    go_number_str = "Turn: %d" % ( go_number + 1 )
+    go_number_str = "Turn: %d   Correct: %d    Score: %d" % (
+        ( go_number + 1 ), correct, time_score )
 
     write_small_text( screen, go_number_str, pygame.Color( "white" ) )
 
@@ -269,7 +270,8 @@ def end( correct, time_score ):
     black = pygame.Color( "black" )
     write_main_text( screen, "Thanks for playing!", black )
 
-    write_small_text( screen, "You got %d correct answers." % correct, black )
+    write_small_text(
+        screen, "Correct: %d      Score: %d" % ( correct, time_score ), black )
 
     pygame.display.flip()
 
@@ -284,13 +286,14 @@ def end( correct, time_score ):
 
 start()
 
-num_greens = 10
+num_greens = 10 # How many times we play
 
 correct = 0
 time_millis = 0
 i = 0
 while i < num_greens:
-    ready_screen( i )
+    max_time = i * wait_time
+    ready_screen( i, correct, max_time - time_millis )
     wait()
     wasgreen, correct_points, tm_points = shape()
     if wasgreen:
