@@ -100,10 +100,10 @@ def smiley_face():
     centre_x = screen.get_width() / 2
     centre_y = screen.get_height() / 2
     centre = centre_x, centre_y
-    radius = int( screen.get_height() / 2.5 )
-    width = screen.get_height() / 30
+    radius = int( screen.get_height() / 6 )
+    width = screen.get_height() / 70
 
-    eye_radius = screen.get_height() / 10
+    eye_radius = screen.get_height() / 25
     eye1_centre_x = centre_x - ( radius / 3 )
     eye1_centre_y = centre_y - ( 13 * radius / 30 )
     eye2_centre_x = centre_x + ( radius / 3 )
@@ -121,7 +121,7 @@ def smiley_face():
     mouth_start = math.pi       # Downwards
     mouth_end   = 2 * math.pi   # Upwards
 
-    screen.fill( pygame.Color( "white" ) )
+    screen.fill( pygame.Color( "gray" ) )
     pygame.draw.circle( screen, green, centre, radius, width )
     pygame.draw.circle( screen, green, eye1_centre, eye_radius, width )
     pygame.draw.circle( screen, green, eye2_centre, eye_radius, width )
@@ -132,10 +132,10 @@ def sad_face():
     centre_x = screen.get_width() / 2
     centre_y = screen.get_height() / 2
     centre = centre_x, centre_y
-    radius = int( screen.get_height() / 2.5 )
-    width = screen.get_height() / 30
+    radius = int( screen.get_height() / 6 )
+    width = screen.get_height() / 70
 
-    eye_radius = screen.get_height() / 10
+    eye_radius = screen.get_height() / 25
     eye1_centre_x = centre_x - ( radius / 3 )
     eye1_centre_y = centre_y - ( 13 * radius / 30 )
     eye2_centre_x = centre_x + ( radius / 3 )
@@ -153,7 +153,7 @@ def sad_face():
     mouth_start = 0
     mouth_end   = math.pi
 
-    screen.fill( pygame.Color( "white" ) )
+    screen.fill( pygame.Color( "gray" ) )
     pygame.draw.circle( screen, red, centre, radius, width )
     pygame.draw.circle( screen, red, eye1_centre, eye_radius, width )
     pygame.draw.circle( screen, red, eye2_centre, eye_radius, width )
