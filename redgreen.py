@@ -12,6 +12,8 @@ screen = None
 rendered_main_texts = {}
 rendered_small_texts = {}
 
+wait_time = 2000 # Display each shape for 2 seconds
+
 def start():
     global screen, ready_text, ready_text_pos, end_text, end_text_pos
     pygame.init()
@@ -75,10 +77,10 @@ def timed_wait( time_to_wait, event_types_that_cancel ):
         if evt.type == pygame.QUIT:
             quit()
         elif evt.type in event_types_that_cancel:
-            return True
+            return ( True, pygame.time.get_ticks() - start_time )
         pygame.time.wait( 10 ) # Give the system a little rest
 
-    return False
+    return ( False, time_to_wait )
 
 
 def wait():
@@ -87,8 +89,7 @@ def wait():
 
 
 def shape_wait():
-
-    wait_time = 2000     # We will wait for 2 seconds for a keypress
+    global wait_time
 
     pygame.event.clear()
     return timed_wait( wait_time, ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ) )
@@ -213,17 +214,19 @@ def green_shape():
 
     pygame.display.flip()
 
-    pressed = shape_wait()
+    pressed, time = shape_wait()
 
     if pressed:
         green_success()
-        return 1
+        return 1, time
     else:
         green_failure()
-        return 0
+        return 0, time
 
 
 def red_shape():
+    global wait_time
+
     red = pygame.Color( "red" )
     height = 2 * ( screen.get_height() / 3 )
     left = ( screen.get_width() / 2 ) - ( height / 2 )
@@ -238,14 +241,14 @@ def red_shape():
 
     pygame.display.flip()
 
-    pressed = shape_wait()
+    pressed, time = shape_wait()
 
     if pressed:
         red_failure()
-        return 0
+        return 0, wait_time
     else:
         red_success()
-        return 1
+        return 1, 0
 
 
 def shape():
@@ -259,8 +262,9 @@ def shape():
         return red_shape()
 
 
-def end( correct ):
+def end( correct, time_score ):
     print "You got %d correct answers" % correct
+    print "You scored %d" % time_score
     screen.fill( pygame.Color( "white" ) )
     black = pygame.Color( "black" )
     write_main_text( screen, "Thanks for playing!", black )
@@ -280,11 +284,18 @@ def end( correct ):
 
 start()
 
+num_goes = 10
+
 correct = 0
-for i in range( 10 ):
+time_millis = 0
+for i in range( num_goes ):
     ready_screen( i )
     wait()
-    correct += shape()
+    correct_points, tm_points = shape()
+    correct += correct_points
+    time_millis += tm_points
 
-end( correct )
+max_time = num_goes * wait_time
+
+end( correct, max_time - time_millis )
 
