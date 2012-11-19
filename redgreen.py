@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import pygame
 
 screen_size = 640, 480
@@ -18,10 +16,8 @@ def shape():
     pass
 
 def end():
-    while True:
-        evt = pygame.event.wait()
-        if evt.type == pygame.QUIT:
-            break
+    pygame.event.clear()
+    pygame.event.wait()
 
 start()
 
