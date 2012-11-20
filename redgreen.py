@@ -65,6 +65,15 @@ def ready_screen( go_number, correct, time_score ):
 
     pygame.display.flip()
 
+def is_quit( evt ):
+    return (
+        evt.type == pygame.QUIT or
+        (
+            evt.type == pygame.KEYDOWN and
+            evt.key == pygame.K_ESCAPE
+        )
+    )
+
 def timed_wait( time_to_wait, event_types_that_cancel ):
     """
     Wait for the specified time_to_wait, but cancel if we receive an
@@ -74,15 +83,20 @@ def timed_wait( time_to_wait, event_types_that_cancel ):
 
     start_time = pygame.time.get_ticks()
 
-    while pygame.time.get_ticks() - start_time < time_to_wait:
-        evt = pygame.event.poll()
-        if evt.type == pygame.QUIT:
-            quit()
-        elif evt.type in event_types_that_cancel:
-            return ( True, pygame.time.get_ticks() - start_time )
-        pygame.time.wait( 10 ) # Give the system a little rest
+    event_id = pygame.USEREVENT + 1
+    pygame.time.set_timer( event_id, time_to_wait )
 
-    return ( False, time_to_wait )
+    try:
+        while True:
+            evt = pygame.event.wait()
+            if is_quit( evt ):
+                quit()
+            elif evt.type in event_types_that_cancel:
+                return ( True, pygame.time.get_ticks() - start_time )
+            elif evt.type == event_id:
+                return ( False, time_to_wait )
+    finally:
+        pygame.time.set_timer( event_id, 0 )
 
 
 def wait():
