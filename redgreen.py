@@ -4,6 +4,7 @@ import pygame
 
 screen_width = 640
 screen_height = 480
+screen_size = screen_width, screen_height
 
 screen = None
 ready_text = None
@@ -11,7 +12,7 @@ ready_text = None
 def start():
     global screen, ready_text
     pygame.init()
-    screen = pygame.display.set_mode( ( screen_width, screen_height ) )
+    screen = pygame.display.set_mode( screen_size )
     font = pygame.font.Font( None, screen_height / 5 )
     ready_text = font.render( "Ready?", 1, pygame.Color( "white" ) )
 
@@ -31,10 +32,8 @@ def shape():
     pass
 
 def end():
-    while True:
-        evt = pygame.event.wait()
-        if evt.type == pygame.QUIT:
-            break
+    pygame.event.clear()
+    pygame.event.wait()
 
 start()
 
