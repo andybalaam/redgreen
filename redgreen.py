@@ -6,7 +6,7 @@ def start():
     pygame.init()
     screen = pygame.display.set_mode( screen_size )
 
-def black_screen():
+def ready_screen():
     pass
 
 def wait():
@@ -21,7 +21,7 @@ def end():
 
 start()
 
-black_screen()
+ready_screen()
 
 wait()
 
