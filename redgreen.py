@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-import sys
-import pygame
 import random
+import pygame
+import sys
 
 screen_width = 640
 screen_height = 480
