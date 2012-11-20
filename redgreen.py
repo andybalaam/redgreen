@@ -41,12 +41,11 @@ def end():
     event_types_that_cancel = pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN
     waiting = True
     while waiting:
-        evt = pygame.event.poll()
+        evt = pygame.event.wait()
         if evt.type == pygame.QUIT:
             quit()
         elif evt.type in event_types_that_cancel:
             waiting = False
-        pygame.time.wait( 10 ) # Give the system a little rest
 
 start()
 
