@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import pygame
+import sys
 
 screen_width = 640
 screen_height = 480
@@ -15,6 +16,10 @@ def start():
     screen = pygame.display.set_mode( screen_size )
     font = pygame.font.Font( None, screen_height / 5 )
     ready_text = font.render( "Ready?", 1, pygame.Color( "white" ) )
+
+def quit():
+    pygame.quit()
+    sys.exit()
 
 def ready_screen():
     textpos = ready_text.get_rect(
@@ -33,7 +38,15 @@ def shape():
 
 def end():
     pygame.event.clear()
-    pygame.event.wait()
+    event_types_that_cancel = pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN
+    waiting = True
+    while waiting:
+        evt = pygame.event.poll()
+        if evt.type == pygame.QUIT:
+            quit()
+        elif evt.type in event_types_that_cancel:
+            waiting = False
+        pygame.time.wait( 10 ) # Give the system a little rest
 
 start()
 
