@@ -9,26 +9,28 @@ screen_height = 480
 screen_size = screen_width, screen_height
 
 screen = None
-ready_text = None
+
+def write_text( screen, text, color, height ):
+    font = pygame.font.Font( None, height )
+    rend = font.render( text, 1, color )
+    pos = rend.get_rect(
+        centerx = screen.get_width() / 2,
+        centery = screen.get_height() / 2
+    )
+    screen.blit( rend, pos )
 
 def start():
-    global screen, ready_text
+    global screen
     pygame.init()
     screen = pygame.display.set_mode( screen_size )
-    font = pygame.font.Font( None, screen_height / 5 )
-    ready_text = font.render( "Ready?", 1, pygame.Color( "white" ) )
 
 def quit():
     pygame.quit()
     sys.exit()
 
 def ready_screen():
-    textpos = ready_text.get_rect(
-        centerx = screen.get_width() / 2,
-        centery = screen.get_height() / 2
-    )
-
-    screen.blit( ready_text, textpos )
+    white = pygame.Color( "white" )
+    write_text( screen, "Ready?", white, screen_height / 5 )
     pygame.display.flip()
 
 def wait():
