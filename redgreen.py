@@ -10,12 +10,18 @@ screen_size = screen_width, screen_height
 
 screen = None
 
-def write_text( screen, text, color, height ):
+def write_text( screen, text, color, big ):
+    if big:
+        height = screen.get_height() / 5
+        up = screen.get_height() / 2
+    else:
+        height = screen_height / 12
+        up = screen.get_height() - ( screen_height / 24 )
     font = pygame.font.Font( None, height )
     rend = font.render( text, 1, color )
     pos = rend.get_rect(
         centerx = screen.get_width() / 2,
-        centery = screen.get_height() / 2
+        centery = up
     )
     screen.blit( rend, pos )
 
@@ -30,7 +36,7 @@ def quit():
 
 def ready_screen():
     white = pygame.Color( "white" )
-    write_text( screen, "Ready?", white, screen_height / 5 )
+    write_text( screen, "Ready?", white, True )
     pygame.display.flip()
 
 def wait():
@@ -116,6 +122,8 @@ def green_shape():
 
     screen.fill( pygame.Color( "white" ) )
     pygame.draw.circle( screen, green, centre, radius, 0 )
+
+    write_text( screen, "Press something!", pygame.Color( "black" ), False )
 
     pygame.display.flip()
 
