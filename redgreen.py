@@ -75,7 +75,7 @@ def shape_wait():
 def tick():
     colour = pygame.Color( "green" )
     w = screen.get_width() / 2
-    h = screen.get_height() / 2
+    h = screen.get_height() / 4
     points = (
         ( w - w/5, h - h/9 ),
         ( w,       h + h/5 ),
@@ -84,13 +84,12 @@ def tick():
 
     screen.fill( pygame.Color( "black" ) )
     pygame.draw.lines( screen, colour, False, points, 20 )
-    pygame.display.flip()
 
 
 def cross():
     colour = pygame.Color( "red" )
     w = screen.get_width() / 2
-    h = screen.get_height() / 2
+    h = screen.get_height() / 4
     left   = w - w/3
     right  = w + w/3
     top    = h - h/3
@@ -105,14 +104,23 @@ def cross():
     screen.fill( pygame.Color( "black" ) )
     pygame.draw.line( screen, colour, start1, end1, 20 )
     pygame.draw.line( screen, colour, start2, end2, 20 )
-    pygame.display.flip()
 
 def green_success():
     tick()
+    green = pygame.Color( "green" )
+    white = pygame.Color( "white" )
+    write_text( screen, "Well done!", green, True )
+    write_text( screen, "You pressed on green!", white, False )
+    pygame.display.flip()
     pygame.time.wait( 2000 ) # Can't quit or skip!
 
 def green_failure():
     cross()
+    red   = pygame.Color( "red" )
+    white = pygame.Color( "white" )
+    write_text( screen, "Bad Luck!", red, True )
+    write_text( screen, "Green means press something!", white, False )
+    pygame.display.flip()
     pygame.time.wait( 2000 ) # Can't quit or skip!
 
 def green_shape():
@@ -138,6 +146,11 @@ def shape():
     green_shape()
 
 def end():
+    screen.fill( pygame.Color( "black" ) )
+    white = pygame.Color( "white" )
+    write_text( screen, "Thanks for playing!", white, True )
+    write_text( screen, "Press a key to exit", white, False )
+    pygame.display.flip()
     pygame.event.clear()
     event_types_that_cancel = pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN
     waiting = True
