@@ -123,6 +123,25 @@ def green_failure():
     pygame.display.flip()
     pygame.time.wait( 2000 ) # Can't quit or skip!
 
+def red_success():
+    tick()
+    green = pygame.Color( "green" )
+    white = pygame.Color( "white" )
+    write_text( screen, "Well done!", green, True )
+    write_text( screen, "You didn't press on red!", white, False )
+    pygame.display.flip()
+    pygame.time.wait( 2000 ) # Can't quit or skip!
+
+def red_failure():
+    cross()
+    red   = pygame.Color( "red" )
+    white = pygame.Color( "white" )
+    write_text( screen, "Bad Luck!", red, True )
+    write_text( screen, "Red means don't press anything!", white, False )
+    pygame.display.flip()
+    pygame.time.wait( 2000 ) # Can't quit or skip!
+
+
 def green_shape():
     green = pygame.Color( "green" )
     centre = ( screen.get_width() / 2, screen.get_height() / 2 )
@@ -142,8 +161,37 @@ def green_shape():
     else:
         green_failure()
 
+
+def red_shape():
+    red = pygame.Color( "red" )
+    height = 2 * ( screen.get_height() / 3 )
+    left = ( screen.get_width() / 2 ) - ( height / 2 )
+    top = screen.get_height() / 6
+
+    screen.fill( pygame.Color( "white" ) )
+    pygame.draw.rect( screen, red, ( left, top, height, height ), 0 )
+
+    write_text( screen, "Don't press!", pygame.Color( "black" ), False )
+
+    pygame.display.flip()
+
+    pressed = shape_wait()
+
+    if pressed:
+        red_failure()
+    else:
+        red_success()
+
+
 def shape():
-    green_shape()
+    GREEN = 0
+    RED   = 1
+    shape = random.choice( [GREEN, RED] )
+
+    if shape == GREEN:
+        return green_shape()
+    else:
+        return red_shape()
 
 def end():
     screen.fill( pygame.Color( "black" ) )
