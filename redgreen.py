@@ -247,8 +247,6 @@ def red_shape():
     height = 2 * ( screen.get_height() / 3 )
     left = ( screen.get_width() / 2 ) - ( height / 2 )
     top = screen.get_height() / 6
-    centre = ( screen.get_width() / 2, screen.get_height() / 2 )
-    radius = screen.get_height() / 3
 
     screen.fill( pygame.Color( "white" ) )
     pygame.draw.rect( screen, red, ( left, top, height, height ), 0 )
