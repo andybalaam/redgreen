@@ -1,22 +1,17 @@
 #!/usr/bin/env python
 
 import math
-import pygame
 import random
+import pygame
 import sys
 
 screen_width = 640
 screen_height = 480
+screen_size = screen_width, screen_height
 
 screen = None
 
 wait_time = 2000 # Display each shape for 2 seconds
-
-def start():
-    global screen
-    pygame.init()
-    screen = pygame.display.set_mode(
-        ( screen_width, screen_height ), pygame.FULLSCREEN )
 
 def write_text( screen, text, color, big ):
     if big:
@@ -33,6 +28,10 @@ def write_text( screen, text, color, big ):
     )
     screen.blit( rend, pos )
 
+def start():
+    global screen
+    pygame.init()
+    screen = pygame.display.set_mode( screen_size, pygame.FULLSCREEN )
 
 def quit():
     pygame.quit()
@@ -40,7 +39,8 @@ def quit():
 
 def ready_screen( go_number, correct, time_score ):
     screen.fill( pygame.Color( "black" ) )
-    write_text( screen, "Ready?", pygame.Color( "white" ), True )
+    white = pygame.Color( "white" )
+    write_text( screen, "Ready?", white, True )
 
     go_number_str = "Turn: %d   Correct: %d    Score: %d" % (
         ( go_number + 1 ), correct, time_score )
@@ -133,19 +133,20 @@ def result_wait():
 
 def green_success():
     tick()
-    write_text( screen, "Well done!", pygame.Color( "green" ), True )
-    write_text(
-        screen, "You pressed on green!", pygame.Color( "white" ), False )
+    green = pygame.Color( "green" )
+    white = pygame.Color( "white" )
+    write_text( screen, "Well done!", green, True )
+    write_text( screen, "You pressed on green!", white, False )
     pygame.display.flip()
 
     result_wait()
 
 def green_failure():
     cross()
-    write_text( screen, "Bad luck!", pygame.Color( "red" ), True )
-    write_text(
-        screen, "Green means press something!", pygame.Color( "white" ), False )
-
+    red   = pygame.Color( "red" )
+    white = pygame.Color( "white" )
+    write_text( screen, "Bad Luck!", red, True )
+    write_text( screen, "Green means press something!", white, False )
     pygame.display.flip()
 
     result_wait()
@@ -153,25 +154,20 @@ def green_failure():
 
 def red_success():
     tick()
-    write_text( screen, "Well done!", pygame.Color( "green" ), True )
-    write_text(
-        screen, "You didn't press on red!", pygame.Color( "white" ), False )
+    green = pygame.Color( "green" )
+    white = pygame.Color( "white" )
+    write_text( screen, "Well done!", green, True )
+    write_text( screen, "You didn't press on red!", white, False )
     pygame.display.flip()
-
     result_wait()
 
 def red_failure():
     cross()
-    write_text( screen, "Bad luck!", pygame.Color( "red" ), True )
-    write_text(
-        screen,
-        "Red means don't press anything!",
-        pygame.Color( "white" ),
-        False
-    )
-
+    red   = pygame.Color( "red" )
+    white = pygame.Color( "white" )
+    write_text( screen, "Bad Luck!", red, True )
+    write_text( screen, "Red means don't press anything!", white, False )
     pygame.display.flip()
-
     result_wait()
 
 
@@ -198,8 +194,6 @@ def green_shape():
 
 
 def red_shape():
-    global wait_time
-
     red = pygame.Color( "red" )
     height = 2 * ( screen.get_height() / 3 )
     left = ( screen.get_width() / 2 ) - ( height / 2 )
@@ -236,14 +230,14 @@ def shape():
 def end( correct, time_score ):
     print "You got %d correct answers" % correct
     print "You scored %d" % time_score
-    screen.fill( pygame.Color( "white" ) )
-    black = pygame.Color( "black" )
-    write_text( screen, "Thanks for playing!", black, True )
+    screen.fill( pygame.Color( "black" ) )
+    white = pygame.Color( "white" )
+    write_text( screen, "Thanks for playing!", white, True )
 
     write_text(
         screen,
         "Correct: %d      Score: %d" % ( correct, time_score ),
-        black,
+        white,
         False
     )
 
