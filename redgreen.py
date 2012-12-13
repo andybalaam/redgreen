@@ -110,76 +110,45 @@ def shape_wait():
     pygame.event.clear()
     return timed_wait( wait_time, ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ) )
 
-def smiley_face():
-    green = pygame.Color( "green" )
-    centre_x = screen.get_width() / 2
-    centre_y = screen.get_height() / 2
-    centre = centre_x, centre_y
-    radius = int( screen.get_height() / 6 )
-    width = screen.get_height() / 70
+def tick():
+    colour = pygame.Color( "green" )
+    w = screen.get_width() / 2
+    h = screen.get_height() / 4
+    points = (
+        ( w - w/5, h - h/9 ),
+        ( w,       h + h/5 ),
+        ( w + w/3, h - h/3 ),
+    )
 
-    eye_radius = screen.get_height() / 25
-    eye1_centre_x = centre_x - ( radius / 3 )
-    eye1_centre_y = centre_y - ( 13 * radius / 30 )
-    eye2_centre_x = centre_x + ( radius / 3 )
-    eye2_centre_y = centre_y - ( 13 * radius / 30 )
+    screen.fill( pygame.Color( "black" ) )
+    pygame.draw.lines( screen, colour, False, points, 20 )
 
-    eye1_centre = eye1_centre_x, eye1_centre_y
-    eye2_centre = eye2_centre_x, eye2_centre_y
 
-    mouth_left   = centre_x - ( 3 * radius / 8 )
-    mouth_width  = 3 * radius / 4
-    mouth_top    = centre_y
-    mouth_height = 2 * radius / 3
+def cross():
+    colour = pygame.Color( "red" )
+    w = screen.get_width() / 2
+    h = screen.get_height() / 4
+    left   = w - w/3
+    right  = w + w/3
+    top    = h - h/3
+    bottom = h + h/3
 
-    mouth_rect = ( ( mouth_left, mouth_top ), ( mouth_width, mouth_height ) )
-    mouth_start = math.pi       # Downwards
-    mouth_end   = 2 * math.pi   # Upwards
+    start1 = left, top
+    end1   = right, bottom
 
-    screen.fill( pygame.Color( "gray" ) )
-    pygame.draw.circle( screen, green, centre, radius, width )
-    pygame.draw.circle( screen, green, eye1_centre, eye_radius, width )
-    pygame.draw.circle( screen, green, eye2_centre, eye_radius, width )
-    pygame.draw.arc( screen, green, mouth_rect, mouth_start, mouth_end, width )
+    start2 = left, bottom
+    end2   = right, top
 
-def sad_face():
-    red = pygame.Color( "red" )
-    centre_x = screen.get_width() / 2
-    centre_y = screen.get_height() / 2
-    centre = centre_x, centre_y
-    radius = int( screen.get_height() / 6 )
-    width = screen.get_height() / 70
-
-    eye_radius = screen.get_height() / 25
-    eye1_centre_x = centre_x - ( radius / 3 )
-    eye1_centre_y = centre_y - ( 13 * radius / 30 )
-    eye2_centre_x = centre_x + ( radius / 3 )
-    eye2_centre_y = centre_y - ( 13 * radius / 30 )
-
-    eye1_centre = eye1_centre_x, eye1_centre_y
-    eye2_centre = eye2_centre_x, eye2_centre_y
-
-    mouth_left   = centre_x - ( 3 * radius / 8 )
-    mouth_width  = 3 * radius / 4
-    mouth_top    = centre_y + ( radius / 5 )
-    mouth_height = 2 * radius / 3
-
-    mouth_rect = ( ( mouth_left, mouth_top ), ( mouth_width, mouth_height ) )
-    mouth_start = 0
-    mouth_end   = math.pi
-
-    screen.fill( pygame.Color( "gray" ) )
-    pygame.draw.circle( screen, red, centre, radius, width )
-    pygame.draw.circle( screen, red, eye1_centre, eye_radius, width )
-    pygame.draw.circle( screen, red, eye2_centre, eye_radius, width )
-    pygame.draw.arc( screen, red, mouth_rect, mouth_start, mouth_end, width )
+    screen.fill( pygame.Color( "black" ) )
+    pygame.draw.line( screen, colour, start1, end1, 20 )
+    pygame.draw.line( screen, colour, start2, end2, 20 )
 
 def result_wait():
     result_time = 3000 # wait for 4 seconds
     timed_wait( result_time, ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ) )
 
 def green_success():
-    smiley_face()
+    tick()
     write_main_text( screen, "Well done!", pygame.Color( "green" ) )
     write_small_text(
         screen, "You pressed on green!", pygame.Color( "black" ) )
@@ -188,7 +157,7 @@ def green_success():
     result_wait()
 
 def green_failure():
-    sad_face()
+    cross()
     write_main_text( screen, "Bad luck!", pygame.Color( "red" ) )
     write_small_text(
         screen, "Green means press something!", pygame.Color( "black" ) )
@@ -199,7 +168,7 @@ def green_failure():
 
 
 def red_success():
-    smiley_face()
+    tick()
     write_main_text( screen, "Well done!", pygame.Color( "green" ) )
     write_small_text(
         screen, "You didn't press on red!", pygame.Color( "black" ) )
@@ -208,7 +177,7 @@ def red_success():
     result_wait()
 
 def red_failure():
-    sad_face()
+    cross()
     write_main_text( screen, "Bad luck!", pygame.Color( "red" ) )
     write_small_text(
         screen, "Red means don't press anything!", pygame.Color( "black" ) )
