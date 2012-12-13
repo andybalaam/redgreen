@@ -55,6 +55,8 @@ def shape_wait():
     finished_waiting_event_id = pygame.USEREVENT + 1
     pygame.time.set_timer( finished_waiting_event_id, time_to_wait )
 
+    pygame.event.clear()
+
     pressed = False
     waiting = True
     while waiting:
