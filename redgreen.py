@@ -13,7 +13,7 @@ screen = None
 wait_time = 2000 # Display each shape for 2 seconds
 
 def start():
-    global screen, ready_text, ready_text_pos, end_text, end_text_pos
+    global screen
     pygame.init()
     screen = pygame.display.set_mode(
         ( screen_width, screen_height ), pygame.FULLSCREEN )
@@ -135,7 +135,7 @@ def green_success():
     tick()
     write_text( screen, "Well done!", pygame.Color( "green" ), True )
     write_text(
-        screen, "You pressed on green!", pygame.Color( "black" ), False )
+        screen, "You pressed on green!", pygame.Color( "white" ), False )
     pygame.display.flip()
 
     result_wait()
@@ -144,7 +144,7 @@ def green_failure():
     cross()
     write_text( screen, "Bad luck!", pygame.Color( "red" ), True )
     write_text(
-        screen, "Green means press something!", pygame.Color( "black" ), False )
+        screen, "Green means press something!", pygame.Color( "white" ), False )
 
     pygame.display.flip()
 
@@ -155,7 +155,7 @@ def red_success():
     tick()
     write_text( screen, "Well done!", pygame.Color( "green" ), True )
     write_text(
-        screen, "You didn't press on red!", pygame.Color( "black" ), False )
+        screen, "You didn't press on red!", pygame.Color( "white" ), False )
     pygame.display.flip()
 
     result_wait()
@@ -166,7 +166,7 @@ def red_failure():
     write_text(
         screen,
         "Red means don't press anything!",
-        pygame.Color( "black" ),
+        pygame.Color( "white" ),
         False
     )
 
