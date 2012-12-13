@@ -9,8 +9,6 @@ screen_width = 640
 screen_height = 480
 
 screen = None
-rendered_main_texts = {}
-rendered_small_texts = {}
 
 wait_time = 2000 # Display each shape for 2 seconds
 
@@ -20,33 +18,19 @@ def start():
     screen = pygame.display.set_mode(
         ( screen_width, screen_height ), pygame.FULLSCREEN )
 
-def write_main_text( screen, text, color ):
-    global rendered_main_texts
-    if text not in rendered_main_texts:
-        font = pygame.font.Font( None, screen_height / 5 )
-        rend = font.render( text, 1, color )
-        pos = rend.get_rect(
-            centerx = screen.get_width() / 2,
-            centery = screen.get_height() / 2
-        )
-        rendered_main_texts[text] = rend, pos
+def write_text( screen, text, color, big ):
+    if big:
+        height = screen.get_height() / 5
+        up = screen.get_height() / 2
     else:
-        rend, pos = rendered_main_texts[text]
-    screen.blit( rend, pos )
-
-
-def write_small_text( screen, text, color ):
-    global rendered_small_texts
-    if text not in rendered_small_texts:
-        font = pygame.font.Font( None, screen_height / 12 )
-        rend = font.render( text, 1, color )
-        pos = rend.get_rect(
-            centerx = screen.get_width() / 2,
-            centery = screen.get_height() - ( screen_height / 24 )
-        )
-        rendered_small_texts[text] = rend, pos
-    else:
-        rend, pos = rendered_small_texts[text]
+        height = screen_height / 12
+        up = screen.get_height() - ( screen_height / 24 )
+    font = pygame.font.Font( None, height )
+    rend = font.render( text, 1, color )
+    pos = rend.get_rect(
+        centerx = screen.get_width() / 2,
+        centery = up
+    )
     screen.blit( rend, pos )
 
 
@@ -56,12 +40,12 @@ def quit():
 
 def ready_screen( go_number, correct, time_score ):
     screen.fill( pygame.Color( "black" ) )
-    write_main_text( screen, "Ready?", pygame.Color( "white" ) )
+    write_text( screen, "Ready?", pygame.Color( "white" ), True )
 
     go_number_str = "Turn: %d   Correct: %d    Score: %d" % (
         ( go_number + 1 ), correct, time_score )
 
-    write_small_text( screen, go_number_str, pygame.Color( "white" ) )
+    write_text( screen, go_number_str, pygame.Color( "white" ), False )
 
     pygame.display.flip()
 
@@ -149,18 +133,18 @@ def result_wait():
 
 def green_success():
     tick()
-    write_main_text( screen, "Well done!", pygame.Color( "green" ) )
-    write_small_text(
-        screen, "You pressed on green!", pygame.Color( "black" ) )
+    write_text( screen, "Well done!", pygame.Color( "green" ), True )
+    write_text(
+        screen, "You pressed on green!", pygame.Color( "black" ), False )
     pygame.display.flip()
 
     result_wait()
 
 def green_failure():
     cross()
-    write_main_text( screen, "Bad luck!", pygame.Color( "red" ) )
-    write_small_text(
-        screen, "Green means press something!", pygame.Color( "black" ) )
+    write_text( screen, "Bad luck!", pygame.Color( "red" ), True )
+    write_text(
+        screen, "Green means press something!", pygame.Color( "black" ), False )
 
     pygame.display.flip()
 
@@ -169,18 +153,22 @@ def green_failure():
 
 def red_success():
     tick()
-    write_main_text( screen, "Well done!", pygame.Color( "green" ) )
-    write_small_text(
-        screen, "You didn't press on red!", pygame.Color( "black" ) )
+    write_text( screen, "Well done!", pygame.Color( "green" ), True )
+    write_text(
+        screen, "You didn't press on red!", pygame.Color( "black" ), False )
     pygame.display.flip()
 
     result_wait()
 
 def red_failure():
     cross()
-    write_main_text( screen, "Bad luck!", pygame.Color( "red" ) )
-    write_small_text(
-        screen, "Red means don't press anything!", pygame.Color( "black" ) )
+    write_text( screen, "Bad luck!", pygame.Color( "red" ), True )
+    write_text(
+        screen,
+        "Red means don't press anything!",
+        pygame.Color( "black" ),
+        False
+    )
 
     pygame.display.flip()
 
@@ -195,7 +183,7 @@ def green_shape():
     screen.fill( pygame.Color( "white" ) )
     pygame.draw.circle( screen, green, centre, radius, 0 )
 
-    write_small_text( screen, "Press something!", pygame.Color( "black" ) )
+    write_text( screen, "Press something!", pygame.Color( "black" ), False )
 
     pygame.display.flip()
 
@@ -220,7 +208,7 @@ def red_shape():
     screen.fill( pygame.Color( "white" ) )
     pygame.draw.rect( screen, red, ( left, top, height, height ), 0 )
 
-    write_small_text( screen, "Don't press!", pygame.Color( "black" ) )
+    write_text( screen, "Don't press!", pygame.Color( "black" ), False )
 
     pygame.display.flip()
 
@@ -250,10 +238,14 @@ def end( correct, time_score ):
     print "You scored %d" % time_score
     screen.fill( pygame.Color( "white" ) )
     black = pygame.Color( "black" )
-    write_main_text( screen, "Thanks for playing!", black )
+    write_text( screen, "Thanks for playing!", black, True )
 
-    write_small_text(
-        screen, "Correct: %d      Score: %d" % ( correct, time_score ), black )
+    write_text(
+        screen,
+        "Correct: %d      Score: %d" % ( correct, time_score ),
+        black,
+        False
+    )
 
     pygame.display.flip()
 
