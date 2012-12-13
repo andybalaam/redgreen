@@ -189,9 +189,9 @@ def shape():
     shape = random.choice( [GREEN, RED] )
 
     if shape == GREEN:
-        return green_shape()
+        green_shape()
     else:
-        return red_shape()
+        red_shape()
 
 def end():
     screen.fill( pygame.Color( "black" ) )
