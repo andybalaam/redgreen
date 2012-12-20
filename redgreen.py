@@ -7,6 +7,7 @@ import sys
 screen_width = 640
 screen_height = 480
 screen_size = screen_width, screen_height
+press_events = pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN
 
 screen = None
 
@@ -69,7 +70,7 @@ def ready_screen():
 
 def wait():
     time_to_wait = random.randint( 1500, 3000 ) # Between 1.5 and 3 seconds
-    pygame.time.wait( time_to_wait ) # Note bug: can't quit during this time
+    timed_wait( time_to_wait, () )
 
 def is_quit( evt ):
     return (
@@ -85,8 +86,7 @@ def shape_wait():
     Wait while we display a shape.  Return True if a key was pressed,
     or false otherwise.
     """
-    event_types_that_cancel = pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN
-    return timed_wait( 2000, event_types_that_cancel ) # 2 seconds
+    return timed_wait( 2000, press_events ) # 2 seconds
 
 def tick():
     colour = pygame.Color( "green" )
@@ -128,7 +128,7 @@ def green_success():
     write_text( screen, "Well done!", green, True )
     write_text( screen, "You pressed on green!", white, False )
     pygame.display.flip()
-    pygame.time.wait( 2000 ) # Can't quit or skip!
+    timed_wait( 2000, press_events ) # 2 seconds
 
 def green_failure():
     cross()
@@ -137,7 +137,7 @@ def green_failure():
     write_text( screen, "Bad Luck!", red, True )
     write_text( screen, "Green means press something!", white, False )
     pygame.display.flip()
-    pygame.time.wait( 2000 ) # Can't quit or skip!
+    timed_wait( 2000, press_events ) # 2 seconds
 
 def red_success():
     tick()
@@ -146,7 +146,7 @@ def red_success():
     write_text( screen, "Well done!", green, True )
     write_text( screen, "You didn't press on red!", white, False )
     pygame.display.flip()
-    pygame.time.wait( 2000 ) # Can't quit or skip!
+    timed_wait( 2000, press_events ) # 2 seconds
 
 def red_failure():
     cross()
@@ -155,7 +155,7 @@ def red_failure():
     write_text( screen, "Bad Luck!", red, True )
     write_text( screen, "Red means don't press anything!", white, False )
     pygame.display.flip()
-    pygame.time.wait( 2000 ) # Can't quit or skip!
+    timed_wait( 2000, press_events ) # 2 seconds
 
 
 def green_shape():
