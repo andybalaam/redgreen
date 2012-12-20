@@ -61,21 +61,22 @@ def timed_wait( time_to_wait, event_types_that_cancel ):
     finished_waiting_event_id = pygame.USEREVENT + 1
     pygame.time.set_timer( finished_waiting_event_id, time_to_wait )
 
-    pygame.event.clear()
+    try:
+        pygame.event.clear()
 
-    pressed = False
-    waiting = True
-    while waiting:
-        evt = pygame.event.wait()
-        if is_quit( evt ):
-            quit()
-        elif evt.type in event_types_that_cancel:
-            waiting = False
-            pressed = True
-        elif evt.type == finished_waiting_event_id:
-            waiting = False
-
-    pygame.time.set_timer( finished_waiting_event_id, 0 )
+        pressed = False
+        waiting = True
+        while waiting:
+            evt = pygame.event.wait()
+            if is_quit( evt ):
+                quit()
+            elif evt.type in event_types_that_cancel:
+                waiting = False
+                pressed = True
+            elif evt.type == finished_waiting_event_id:
+                waiting = False
+    finally:
+        pygame.time.set_timer( finished_waiting_event_id, 0 )
 
     return pressed
 
