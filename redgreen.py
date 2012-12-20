@@ -8,6 +8,7 @@ import sys
 screen_width = 640
 screen_height = 480
 screen_size = screen_width, screen_height
+press_events = pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN
 
 screen = None
 
@@ -60,9 +61,8 @@ def is_quit( evt ):
 
 def timed_wait( time_to_wait, event_types_that_cancel ):
     """
-    Wait for the specified time_to_wait, but cancel if we receive an
-    event of one of the types in event_types_that_cancel.
-    Return True if we were cancelled, or False if the time ran out.
+    Wait for time_to_wait, but cancel if a relevant event happens.
+    Return True if cancelled, or False if we waited the full time.
     """
 
     start_time = pygame.time.get_ticks()
@@ -89,10 +89,8 @@ def wait():
 
 
 def shape_wait():
-    global wait_time
-
     pygame.event.clear()
-    return timed_wait( wait_time, ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ) )
+    return timed_wait( wait_time, press_events ) # 2 seconds
 
 def tick():
     colour = pygame.Color( "green" )
@@ -129,7 +127,7 @@ def cross():
 
 def result_wait():
     result_time = 3000 # wait for 4 seconds
-    timed_wait( result_time, ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ) )
+    timed_wait( result_time, press_events )
 
 def green_success():
     tick()
@@ -243,8 +241,7 @@ def end( correct, time_score ):
 
     pygame.display.flip()
 
-    end_time = 10000 # wait for 10 seconds
-    timed_wait( end_time, ( pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN ) )
+    timed_wait( 0, press_events )
 
     quit()
 
