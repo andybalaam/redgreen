@@ -52,15 +52,12 @@ def is_quit( evt ):
         )
     )
 
-def shape_wait():
+def timed_wait( time_to_wait, event_types_that_cancel ):
     """
-    Wait while we display a shape.  Return True if a key was pressed,
-    or false otherwise.
+    Wait for time_to_wait, but cancel if a relevant event happens.
+    Return True if cancelled, or False if we waited the full time.
     """
 
-    event_types_that_cancel = pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN
-
-    time_to_wait = 2000 # Display the shape for 2 seconds
     finished_waiting_event_id = pygame.USEREVENT + 1
     pygame.time.set_timer( finished_waiting_event_id, time_to_wait )
 
@@ -82,6 +79,13 @@ def shape_wait():
 
     return pressed
 
+def shape_wait():
+    """
+    Wait while we display a shape.  Return True if a key was pressed,
+    or false otherwise.
+    """
+    event_types_that_cancel = pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN
+    return timed_wait( 2000, event_types_that_cancel ) # 2 seconds
 
 def tick():
     colour = pygame.Color( "green" )
