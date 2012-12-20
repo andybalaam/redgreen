@@ -25,33 +25,6 @@ def write_text( screen, text, color, big ):
     )
     screen.blit( rend, pos )
 
-def start():
-    global screen
-    pygame.init()
-    screen = pygame.display.set_mode( screen_size )
-
-def quit():
-    pygame.quit()
-    sys.exit()
-
-def ready_screen():
-    white = pygame.Color( "white" )
-    write_text( screen, "Ready?", white, True )
-    pygame.display.flip()
-
-def wait():
-    time_to_wait = random.randint( 1500, 3000 ) # Between 1.5 and 3 seconds
-    pygame.time.wait( time_to_wait ) # Note bug: can't quit during this time
-
-def is_quit( evt ):
-    return (
-        evt.type == pygame.QUIT or
-        (
-            evt.type == pygame.KEYDOWN and
-            evt.key == pygame.K_ESCAPE
-        )
-    )
-
 def timed_wait( time_to_wait, event_types_that_cancel ):
     """
     Wait for time_to_wait, but cancel if a relevant event happens.
@@ -79,6 +52,33 @@ def timed_wait( time_to_wait, event_types_that_cancel ):
         pygame.time.set_timer( finished_waiting_event_id, 0 )
 
     return pressed
+
+def start():
+    global screen
+    pygame.init()
+    screen = pygame.display.set_mode( screen_size )
+
+def quit():
+    pygame.quit()
+    sys.exit()
+
+def ready_screen():
+    white = pygame.Color( "white" )
+    write_text( screen, "Ready?", white, True )
+    pygame.display.flip()
+
+def wait():
+    time_to_wait = random.randint( 1500, 3000 ) # Between 1.5 and 3 seconds
+    pygame.time.wait( time_to_wait ) # Note bug: can't quit during this time
+
+def is_quit( evt ):
+    return (
+        evt.type == pygame.QUIT or
+        (
+            evt.type == pygame.KEYDOWN and
+            evt.key == pygame.K_ESCAPE
+        )
+    )
 
 def shape_wait():
     """
