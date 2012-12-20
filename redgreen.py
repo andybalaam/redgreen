@@ -43,6 +43,15 @@ def wait():
     time_to_wait = random.randint( 1500, 3000 ) # Between 1.5 and 3 seconds
     pygame.time.wait( time_to_wait ) # Note bug: can't quit during this time
 
+def is_quit( evt ):
+    return (
+        evt.type == pygame.QUIT or
+        (
+            evt.type == pygame.KEYDOWN and
+            evt.key == pygame.K_ESCAPE
+        )
+    )
+
 def shape_wait():
     """
     Wait while we display a shape.  Return True if a key was pressed,
@@ -61,7 +70,7 @@ def shape_wait():
     waiting = True
     while waiting:
         evt = pygame.event.wait()
-        if evt.type == pygame.QUIT:
+        if is_quit( evt ):
             quit()
         elif evt.type in event_types_that_cancel:
             waiting = False
@@ -206,7 +215,7 @@ def end():
     waiting = True
     while waiting:
         evt = pygame.event.wait()
-        if evt.type == pygame.QUIT:
+        if is_quit( evt ):
             quit()
         elif evt.type in event_types_that_cancel:
             waiting = False
