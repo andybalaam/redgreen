@@ -216,14 +216,7 @@ def end():
     write_text( screen, "Press a key to exit", white, False )
     pygame.display.flip()
     pygame.event.clear()
-    event_types_that_cancel = pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN
-    waiting = True
-    while waiting:
-        evt = pygame.event.wait()
-        if is_quit( evt ):
-            quit()
-        elif evt.type in event_types_that_cancel:
-            waiting = False
+    timed_wait( 0, press_events )
 
 start()
 
