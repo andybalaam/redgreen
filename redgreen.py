@@ -161,7 +161,7 @@ def red_failure():
 def green_shape():
     green = pygame.Color( "green" )
     centre = ( screen.get_width() / 2, screen.get_height() / 2 )
-    radius = screen.get_width() / 3
+    radius = screen.get_height() / 3
 
     screen.fill( pygame.Color( "white" ) )
     pygame.draw.circle( screen, green, centre, radius, 0 )
