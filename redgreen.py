@@ -29,6 +29,39 @@ def write_text( screen, text, color, big ):
     )
     screen.blit( rend, pos )
 
+def timed_wait( time_to_wait, event_types_that_cancel ):
+    """
+    Wait for time_to_wait, but cancel if a relevant event happens.
+    Return True if cancelled, or False if we waited the full time.
+    """
+
+    start_time = pygame.time.get_ticks()
+
+    finished_waiting_event_id = pygame.USEREVENT + 1
+    pygame.time.set_timer( finished_waiting_event_id, time_to_wait )
+
+    try:
+        pygame.event.clear()
+
+        pressed = False
+        waiting = True
+        time = time_to_wait
+        while waiting:
+            evt = pygame.event.wait()
+            if is_quit( evt ):
+                quit()
+            elif evt.type in event_types_that_cancel:
+                waiting = False
+                pressed = True
+                time = pygame.time.get_ticks() - start_time
+            elif evt.type == finished_waiting_event_id:
+                waiting = False
+    finally:
+        pygame.time.set_timer( finished_waiting_event_id, 0 )
+
+    return pressed, time
+
+
 def start():
     global screen
     pygame.init()
@@ -50,6 +83,10 @@ def ready_screen( go_number, correct, time_score ):
 
     pygame.display.flip()
 
+def wait():
+    time_to_wait = random.randint( 1500, 3000 ) # Between 1.5 and 3 seconds
+    timed_wait( time_to_wait, () )
+
 def is_quit( evt ):
     return (
         evt.type == pygame.QUIT or
@@ -59,37 +96,11 @@ def is_quit( evt ):
         )
     )
 
-def timed_wait( time_to_wait, event_types_that_cancel ):
-    """
-    Wait for time_to_wait, but cancel if a relevant event happens.
-    Return True if cancelled, or False if we waited the full time.
-    """
-
-    start_time = pygame.time.get_ticks()
-
-    event_id = pygame.USEREVENT + 1
-    pygame.time.set_timer( event_id, time_to_wait )
-
-    try:
-        while True:
-            evt = pygame.event.wait()
-            if is_quit( evt ):
-                quit()
-            elif evt.type in event_types_that_cancel:
-                return ( True, pygame.time.get_ticks() - start_time )
-            elif evt.type == event_id:
-                return ( False, time_to_wait )
-    finally:
-        pygame.time.set_timer( event_id, 0 )
-
-
-def wait():
-    time_to_wait = random.randint( 1500, 3000 ) # Between 1.5 and 3 seconds
-    timed_wait( time_to_wait, [] )
-
-
 def shape_wait():
-    pygame.event.clear()
+    """
+    Wait while we display a shape.  Return True if a key was pressed,
+    or false otherwise.
+    """
     return timed_wait( wait_time, press_events ) # 2 seconds
 
 def tick():
@@ -125,10 +136,6 @@ def cross():
     pygame.draw.line( screen, colour, start1, end1, 20 )
     pygame.draw.line( screen, colour, start2, end2, 20 )
 
-def result_wait():
-    result_time = 3000 # wait for 4 seconds
-    timed_wait( result_time, press_events )
-
 def green_success():
     tick()
     green = pygame.Color( "green" )
@@ -136,8 +143,7 @@ def green_success():
     write_text( screen, "Well done!", green, True )
     write_text( screen, "You pressed on green!", white, False )
     pygame.display.flip()
-
-    result_wait()
+    timed_wait( 2000, press_events ) # 2 seconds
 
 def green_failure():
     cross()
@@ -146,9 +152,7 @@ def green_failure():
     write_text( screen, "Bad Luck!", red, True )
     write_text( screen, "Green means press something!", white, False )
     pygame.display.flip()
-
-    result_wait()
-
+    timed_wait( 2000, press_events ) # 2 seconds
 
 def red_success():
     tick()
@@ -157,7 +161,7 @@ def red_success():
     write_text( screen, "Well done!", green, True )
     write_text( screen, "You didn't press on red!", white, False )
     pygame.display.flip()
-    result_wait()
+    timed_wait( 2000, press_events ) # 2 seconds
 
 def red_failure():
     cross()
@@ -166,7 +170,7 @@ def red_failure():
     write_text( screen, "Bad Luck!", red, True )
     write_text( screen, "Red means don't press anything!", white, False )
     pygame.display.flip()
-    result_wait()
+    timed_wait( 2000, press_events ) # 2 seconds
 
 
 def green_shape():
