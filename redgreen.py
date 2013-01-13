@@ -63,10 +63,15 @@ def quit():
     pygame.quit()
     sys.exit()
 
-def ready_screen():
+def ready_screen( go_number, correct ):
     screen.fill( pygame.Color( "black" ) )
     white = pygame.Color( "white" )
     write_text( screen, "Ready?", white, True )
+
+    go_number_str = "Turn: %d    Score: %d" % ( ( go_number + 1 ), correct )
+
+    write_text( screen, go_number_str, pygame.Color( "white" ), False )
+
     pygame.display.flip()
 
 def wait():
@@ -233,7 +238,7 @@ correct = 0
 
 for i in range( 10 ):
 
-    ready_screen()
+    ready_screen( i, correct )
 
     wait()
 
