@@ -64,6 +64,7 @@ def quit():
     sys.exit()
 
 def ready_screen():
+    screen.fill( pygame.Color( "black" ) )
     white = pygame.Color( "white" )
     write_text( screen, "Ready?", white, True )
     pygame.display.flip()
