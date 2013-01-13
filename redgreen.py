@@ -219,13 +219,17 @@ def end():
     pygame.event.clear()
     timed_wait( 0, press_events )
 
+# We start from here
+
 start()
 
-ready_screen()
+for i in range( 10 ):
 
-wait()
+    ready_screen()
 
-shape()
+    wait()
+
+    shape()
 
 end()
 
