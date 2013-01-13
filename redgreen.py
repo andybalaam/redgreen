@@ -235,13 +235,8 @@ def end( correct, time_score ):
     screen.fill( pygame.Color( "black" ) )
     white = pygame.Color( "white" )
     write_text( screen, "Thanks for playing!", white, True )
-
-    write_text(
-        screen,
-        "Correct: %d      Score: %d" % ( correct, time_score ),
-        white,
-        False
-    )
+    msg = "Correct: %d      Score: %d" % ( correct, time_score )
+    write_text( screen, msg, white, False )
 
     pygame.display.flip()
 
