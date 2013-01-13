@@ -57,7 +57,7 @@ def timed_wait( time_to_wait, event_types_that_cancel ):
 def start():
     global screen
     pygame.init()
-    screen = pygame.display.set_mode( screen_size )
+    screen = pygame.display.set_mode( screen_size, pygame.FULLSCREEN )
 
 def quit():
     pygame.quit()
